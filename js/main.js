@@ -434,19 +434,20 @@ document.addEventListener("DOMContentLoaded", () => {
    ============================================================ */
 const EV = {
   de:{ eyebrow:"Kalender", title:"Kommende Events", nav:"Events",
-       lead:"Unsere nächsten Ausfahrten und Anlässe. Termine, die länger als 30 Tage zurückliegen, verschwinden automatisch.",
+       lead:"Unsere Termine der nächsten 30 Tage. Vergangene Termine (älter als 7 Tage) werden automatisch ausgeblendet.",
        none:"Zurzeit sind keine kommenden Events eingetragen.",
        more:"Mehr Infos", allday:"ganztägig", all:"Alle Events anzeigen",
        months:["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"],
        dow:["Mo","Di","Mi","Do","Fr","Sa","So"] },
   en:{ eyebrow:"Calendar", title:"Upcoming Events", nav:"Events",
-       lead:"Our next rides and events. Dates more than 30 days in the past disappear automatically.",
+       lead:"Our events for the next 30 days. Past events (older than 7 days) are hidden automatically.",
        none:"No upcoming events at the moment.",
        more:"More info", allday:"all day", all:"Show all events",
        months:["January","February","March","April","May","June","July","August","September","October","November","December"],
        dow:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"] }
 };
-const EV_CUTOFF_DAYS = 30;
+const EV_PAST_DAYS   = 7;    // vergangene Events nur der letzten 7 Tage zeigen
+const EV_FUTURE_DAYS = 30;   // kommende Events der nächsten 30 Tage zeigen
 let evCal = null;   // aktuell gezeigter Monat {y,m}
 let evSel = null;   // ausgewählter Tag (ISO) oder null
 
@@ -454,9 +455,12 @@ function evDate(s){ return s ? new Date(String(s).slice(0,10)+"T00:00:00") : nul
 function evEndDate(ev){ return evDate(ev.end) || evDate(ev.start); }
 function evISO(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function evVisible(){
-  const cut=new Date(); cut.setHours(0,0,0,0); cut.setDate(cut.getDate()-EV_CUTOFF_DAYS);
+  const now=new Date(); now.setHours(0,0,0,0);
+  const past=new Date(now); past.setDate(past.getDate()-EV_PAST_DAYS);
+  const fut =new Date(now); fut.setDate(fut.getDate()+EV_FUTURE_DAYS);
+  // sichtbar: Events, die im Fenster [heute-7 Tage ; heute+30 Tage] liegen
   return (SC.events||[])
-    .filter(e=>e && e.start && evEndDate(e) >= cut)
+    .filter(e=>e && e.start && evEndDate(e) >= past && evDate(e.start) <= fut)
     .sort((a,b)=> evDate(a.start)-evDate(b.start));
 }
 function evDayMap(){
