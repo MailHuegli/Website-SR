@@ -635,7 +635,6 @@ function renderEvList(L, vis){
     const title=escapeHtml(loc(e.title));
     const locTxt=escapeHtml(loc(e.location));
     const txt=escapeHtml(loc(e.text));
-    const link=e.link?`<a class="sr-ev-link" href="${escapeHtml(e.link)}" target="_blank" rel="noopener">${L.more} ↗</a>`:"";
     const locLine=locTxt?`<span class="sr-ev-loc">📍 ${locTxt}</span>`:"";
     const timeLine=`<span class="sr-ev-time">${e.time?escapeHtml(e.time):L.allday}</span>`;
     return `<article class="sr-ev-card">
@@ -644,7 +643,6 @@ function renderEvList(L, vis){
         <h3>${title}</h3>
         <div class="sr-ev-meta">${timeLine}${locLine}</div>
         ${txt?`<p>${txt}</p>`:""}
-        ${link}
       </div>
     </article>`;
   }).join("");
