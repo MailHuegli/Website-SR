@@ -170,7 +170,7 @@ const SITE_CONTENT = {
     {
       "name": "Felipe Saona",
       "role": {
-        "de": "Juristischer Manager",
+        "de": "Aktuar/Rechtliches",
         "en": "Legal Manager"
       },
       "photo": "img/felipe---small_edited.avif"
