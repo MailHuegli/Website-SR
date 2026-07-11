@@ -48,7 +48,6 @@ const EN = {
   "rules.r13t": "Traffic laws", "rules.r13d": "All applicable traffic laws must be observed at all times.",
   "rules.consentTitle": "Photo and video consent",
   "rules.consentText": "By taking part in club activities, participants consent to the capture and use of photos and videos for the website, print material and social media for promotional, informational or archival purposes. Consent is given voluntarily, applies indefinitely and can be revoked in writing at any time. Personal data is processed in accordance with applicable Swiss data protection law.",
-  "rules.docsNote": "Full statutes (2024 & 2025) and the general assembly minutes are available to members on request or via the WhatsApp channel.",
   "team.eyebrow": "Board", "team.title": "Our team",
   "downloads.title": "Documents & downloads",
   "contact.eyebrow": "Contact", "contact.title": "Become part of the club.",
@@ -396,6 +395,10 @@ function initContactForm(){
 document.addEventListener("DOMContentLoaded", () => {
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // Hinweis „Vollständige Statuten … auf Anfrage" entfernen — die Dokumente
+  // stehen jetzt als Downloads bereit.
+  document.querySelectorAll('[data-i18n="rules.docsNote"]').forEach(el => el.remove());
 
   setSectionImages();
   initEvents();        // baut den Events-/Kalender-Bereich ein (vor initLang & scroll-spy)
