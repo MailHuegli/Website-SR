@@ -57,11 +57,16 @@ const EN = {
   "form.bike": "Motorcycle model", "form.bikePh": "e.g. BMW R1250 RT",
   "form.message": "Message", "form.messagePh": "Tell us a bit about yourself …",
   "form.submit": "Send message",
-  "form.sent": "Thanks! Your message has been prepared — please send it from your email app.",
+  "form.sent": "Thanks! Your message has been sent — we'll get back to you soon.",
+  "form.sending": "Sending …",
+  "form.error": "Sorry, sending didn't work. Please email us at sunset.riders.2023@gmail.com.",
   "footer.tagline": "Sunset Riders — founded 2023 in Zurich."
 };
 
-const FORM_SENT_DE = "Danke! Deine Nachricht wurde vorbereitet — bitte sende sie über dein E-Mail-Programm ab.";
+const FORM_SENT_DE = "Danke! Deine Nachricht wurde gesendet — wir melden uns bald.";
+const FORM_SENDING_DE = "Wird gesendet …";
+const FORM_ERROR_DE = "Senden hat leider nicht geklappt. Bitte schreibt uns an sunset.riders.2023@gmail.com.";
+const CONTACT_EMAIL = "sunset.riders.2023@gmail.com";
 const DEFAULT_LANG = "en";   // Startsprache der Website
 
 /* ---------- content (from js/content.js) ---------- */
@@ -379,16 +384,39 @@ function initContactForm(){
   const form = document.getElementById("contact-form");
   const note = document.getElementById("form-note");
   if (!form) return;
-  form.addEventListener("submit", e => {
+  form.addEventListener("submit", async e => {
     e.preventDefault();
     if (!form.checkValidity()){ form.reportValidity(); return; }
-    note.textContent = currentLang === "en" ? EN["form.sent"] : FORM_SENT_DE;
+    const submitBtn = form.querySelector('[type="submit"]');
     const d = new FormData(form);
-    const body = encodeURIComponent(
-      `Vorname: ${d.get("firstname")}\nNachname: ${d.get("lastname")}\nE-Mail: ${d.get("email")}\nWhatsApp: ${d.get("whatsapp")}\nMotorrad: ${d.get("bike")}\n\n${d.get("message")}`
-    );
-    const subject = encodeURIComponent(currentLang === "en" ? "Website enquiry" : "Kontaktanfrage über die Website");
-    window.location.href = `mailto:sunset.riders.2023@gmail.com?subject=${subject}&body=${body}`;
+    note.style.color = "";
+    note.textContent = currentLang === "en" ? EN["form.sending"] : FORM_SENDING_DE;
+    if (submitBtn) submitBtn.disabled = true;
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/" + CONTACT_EMAIL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          Vorname: d.get("firstname"),
+          Nachname: d.get("lastname"),
+          "E-Mail": d.get("email"),
+          WhatsApp: d.get("whatsapp"),
+          Motorrad: d.get("bike"),
+          Nachricht: d.get("message"),
+          _subject: "Neue Kontaktanfrage über die Website",
+          _template: "table",
+          _replyto: d.get("email"),
+          _captcha: "false"
+        })
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      note.textContent = currentLang === "en" ? EN["form.sent"] : FORM_SENT_DE;
+      form.reset();
+    } catch (err) {
+      note.textContent = currentLang === "en" ? EN["form.error"] : FORM_ERROR_DE;
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+    }
   });
 }
 
