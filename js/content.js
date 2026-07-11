@@ -220,5 +220,97 @@ const SITE_CONTENT = {
       },
       "file": "downloads/General-assembly-meeting-2025.pdf"
     }
+  ],
+  "events": [
+    {
+      "start": "2026-06-13",
+      "end": "2026-06-20",
+      "time": "",
+      "title": {
+        "de": "Deutschland–Tschechien–Österreich Tour",
+        "en": "Germany–Czechia–Austria Tour"
+      },
+      "location": {
+        "de": "Start: Zürich",
+        "en": "Start: Zurich"
+      },
+      "text": {
+        "de": "Mehrtägige Jahrestour: Schwarzwald, Bayern, Tschechien, Österreich, Vorarlberg.",
+        "en": "Multi-day annual tour: Black Forest, Bavaria, Czech Republic, Austria, Vorarlberg."
+      },
+      "link": "https://www.sunset-riders.ch/event-list"
+    },
+    {
+      "start": "2026-06-28",
+      "end": "",
+      "time": "07:00",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Start via WhatsApp",
+        "en": "Start via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      },
+      "link": "https://www.sunset-riders.ch/event-list"
+    },
+    {
+      "start": "2026-07-09",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Treffpunkt via WhatsApp",
+        "en": "Meeting point via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      },
+      "link": "https://www.sunset-riders.ch/event-list"
+    },
+    {
+      "start": "2026-07-16",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Treffpunkt via WhatsApp",
+        "en": "Meeting point via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      },
+      "link": "https://www.sunset-riders.ch/event-list"
+    },
+    {
+      "start": "2026-07-19",
+      "end": "",
+      "time": "07:00",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Start via WhatsApp",
+        "en": "Start via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      },
+      "link": "https://www.sunset-riders.ch/event-list"
+    }
   ]
 };
