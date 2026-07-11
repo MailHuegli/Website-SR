@@ -149,28 +149,7 @@ const SITE_CONTENT = {
       "image": "img/Fotos-Website_3789.jpg"
     }
   ],
-  "gallery": [
-    {
-      "src": "img/Fotos-Website_2595.jpg",
-      "alt": "Klöntalersee mit Bergpanorama"
-    },
-    {
-      "src": "img/Fotos-Website_3323.jpg",
-      "alt": "Gruppenfoto der Sunset Riders mit ihren Motorrädern"
-    },
-    {
-      "src": "img/2874.jpg",
-      "alt": "Passschild Col de l'Iseran, 2770 m"
-    },
-    {
-      "src": "img/3856.jpg",
-      "alt": "Dolomiten – Sassolungo/Langkofel"
-    },
-    {
-      "src": "img/3306.jpg",
-      "alt": "Fahrsicherheitstraining mit Pylonen"
-    }
-  ],
+  "gallery": [],
   "team": [
     {
       "name": "Daniel Wanner",
