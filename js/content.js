@@ -57,21 +57,6 @@ const SITE_CONTENT = {
       }
     },
     {
-      "image": "img/3306.jpg",
-      "tag": {
-        "de": "saisonal",
-        "en": "seasonal"
-      },
-      "title": {
-        "de": "Season Start",
-        "en": "Season Start"
-      },
-      "text": {
-        "de": "Unser Sicherheitsauffrischungskurs zu Beginn jeder Saison — damit alle gut vorbereitet und selbstsicher in die neue Saison starten.",
-        "en": "Our safety refresher course at the start of every season — so everyone begins well prepared and confident."
-      }
-    },
-    {
       "image": "img/season-start.jpg",
       "tag": {
         "de": "Saisonal",
@@ -84,6 +69,21 @@ const SITE_CONTENT = {
       "text": {
         "de": "Mehrmals im Jahr nehmen wir euch mit an spannende Rennstrecken-Events. Der perfekte Ort, um Geschwindigkeit, Adrenalin und Fahrspass sicher und legal auszuleben — genau dort, wo es hingehört.",
         "en": "Several times a year, we take you along to exciting racetrack events — the perfect place to experience speed, adrenaline, and pure riding fun safely and legally, exactly where it belongs."
+      }
+    },
+    {
+      "image": "img/3306.jpg",
+      "tag": {
+        "de": "saisonal",
+        "en": "seasonal"
+      },
+      "title": {
+        "de": "Season Start",
+        "en": "Season Start"
+      },
+      "text": {
+        "de": "Unser Sicherheitsauffrischungskurs zu Beginn jeder Saison — damit alle gut vorbereitet und selbstsicher in die neue Saison starten.",
+        "en": "Our safety refresher course at the start of every season — so everyone begins well prepared and confident."
       }
     }
   ],
