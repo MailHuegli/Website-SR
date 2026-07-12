@@ -457,11 +457,12 @@ document.addEventListener("DOMContentLoaded", () => {
    ------------------------------------------------------------
    Daten: SC.events = [{
      start:"2026-07-16", end:"2026-07-20"(optional), time:"18:30"(optional),
-     title:{de,en}, location:{de,en}, text:{de,en}, link:"https://…"(optional)
+     title:{de,en}, location:{de,en}, text:{de,en}
    }]
-   Events, deren (End-)Datum mehr als 30 Tage zurückliegt, werden
-   automatisch ausgeblendet. Der ganze Bereich wird dynamisch
-   eingefügt — index.html und style.css bleiben unverändert.
+   Die Liste zeigt immer die Events des im Kalender gewählten Monats
+   (ohne zeitliche Beschränkung); Start ist der aktuelle Monat. Alle
+   Monate sind wählbar. Der Bereich wird dynamisch eingefügt —
+   index.html und style.css bleiben unverändert.
    ============================================================ */
 const EV = {
   de:{ eyebrow:"Kalender", title:"Events", nav:"Events",
