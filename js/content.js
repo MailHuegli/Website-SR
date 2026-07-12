@@ -200,5 +200,465 @@ const SITE_CONTENT = {
       "file": "downloads/General-assembly-meeting-2025.pdf"
     }
   ],
-  "events": []
+  "events": [
+    {
+      "start": "2026-03-28",
+      "end": "2026-03-29",
+      "time": "07:00",
+      "title": {
+        "de": "Swiss MXGP",
+        "en": "Swiss MXGP"
+      },
+      "location": {
+        "de": "Frauenfeld",
+        "en": "Frauenfeld"
+      },
+      "text": {
+        "de": "",
+        "en": ""
+      }
+    },
+    {
+      "start": "2026-04-19",
+      "end": "",
+      "time": "09:00",
+      "title": {
+        "de": "Season Start (Auffrischung)",
+        "en": "Season Start (Refresher)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Langsamfahren, Notbremsung, Schräglage.",
+        "en": "Slow riding, emergency braking, leaning."
+      }
+    },
+    {
+      "start": "2026-04-25",
+      "end": "2026-04-26",
+      "time": "09:00",
+      "title": {
+        "de": "Test Days 2026",
+        "en": "Test Days 2026"
+      },
+      "location": {
+        "de": "Derendingen",
+        "en": "Derendingen"
+      },
+      "text": {
+        "de": "",
+        "en": ""
+      }
+    },
+    {
+      "start": "2026-04-26",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Season Start (Auffrischung) – Wiederholung",
+        "en": "Season Start (Refresher) – Repeat"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "",
+        "en": ""
+      }
+    },
+    {
+      "start": "2026-06-13",
+      "end": "2026-06-20",
+      "time": "",
+      "title": {
+        "de": "Deutschland–Tschechien–Österreich Tour",
+        "en": "Germany–Czechia–Austria Tour"
+      },
+      "location": {
+        "de": "Start: Zürich",
+        "en": "Start: Zurich"
+      },
+      "text": {
+        "de": "Mehrtägige Jahrestour: Schwarzwald, Bayern, Tschechien, Österreich, Vorarlberg.",
+        "en": "Multi-day annual tour: Black Forest, Bavaria, Czech Republic, Austria, Vorarlberg."
+      }
+    },
+    {
+      "start": "2026-06-28",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-07-16",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-07-19",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-07-09",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-07-23",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-07-30",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-08-06",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-08-13",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-08-20",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-08-27",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-09-03",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-09-10",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-09-17",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-09-24",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-10-01",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-10-08",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-10-15",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-08-09",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-08-30",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-09-13",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-10-04",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-10-18",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Season Schlussfahrt (Tagestour)",
+        "en": "Season Finale Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt zum Abschluss der Saison.",
+        "en": "A full-day ride to wrap up the season."
+      }
+    }
+  ]
 };
