@@ -202,6 +202,24 @@ const SITE_CONTENT = {
   ],
   "events": [
     {
+      "start": "2026-07-30",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via Whats-App",
+        "en": "Info via Whats-App"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      },
+      "link": ""
+    },
+    {
       "start": "2026-06-23",
       "end": "",
       "time": "18:30",
