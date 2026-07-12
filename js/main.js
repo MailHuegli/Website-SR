@@ -464,41 +464,40 @@ document.addEventListener("DOMContentLoaded", () => {
    eingefügt — index.html und style.css bleiben unverändert.
    ============================================================ */
 const EV = {
-  de:{ eyebrow:"Kalender", title:"Kommende Events", nav:"Events",
-       lead:"Unsere Termine der nächsten 30 Tage. Vergangene Termine (älter als 7 Tage) werden automatisch ausgeblendet.",
-       none:"Zurzeit sind keine kommenden Events eingetragen.",
-       more:"Mehr Infos", allday:"ganztägig", all:"Alle Events anzeigen",
+  de:{ eyebrow:"Kalender", title:"Events", nav:"Events",
+       lead:"Wähle einen Monat, um die Termine zu sehen. Der Kalender startet im aktuellen Monat.",
+       none:"In diesem Monat sind keine Termine.",
+       more:"Mehr Infos", allday:"ganztägig", all:"Ganzen Monat anzeigen",
        months:["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"],
        dow:["Mo","Di","Mi","Do","Fr","Sa","So"] },
-  en:{ eyebrow:"Calendar", title:"Upcoming Events", nav:"Events",
-       lead:"Our events for the next 30 days. Past events (older than 7 days) are hidden automatically.",
-       none:"No upcoming events at the moment.",
-       more:"More info", allday:"all day", all:"Show all events",
+  en:{ eyebrow:"Calendar", title:"Events", nav:"Events",
+       lead:"Pick a month to see the events. The calendar starts on the current month.",
+       none:"No events this month.",
+       more:"More info", allday:"all day", all:"Show whole month",
        months:["January","February","March","April","May","June","July","August","September","October","November","December"],
        dow:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"] }
 };
-const EV_PAST_DAYS   = 7;    // vergangene Events nur der letzten 7 Tage zeigen
-const EV_FUTURE_DAYS = 30;   // kommende Events der nächsten 30 Tage zeigen
 let evCal = null;   // aktuell gezeigter Monat {y,m}
 let evSel = null;   // ausgewählter Tag (ISO) oder null
 
 function evDate(s){ return s ? new Date(String(s).slice(0,10)+"T00:00:00") : null; }
 function evEndDate(ev){ return evDate(ev.end) || evDate(ev.start); }
 function evISO(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
-function evVisible(){
-  const now=new Date(); now.setHours(0,0,0,0);
-  const past=new Date(now); past.setDate(past.getDate()-EV_PAST_DAYS);
-  const fut =new Date(now); fut.setDate(fut.getDate()+EV_FUTURE_DAYS);
-  // sichtbar: Events, die im Fenster [heute-7 Tage ; heute+30 Tage] liegen
-  return (SC.events||[])
-    .filter(e=>e && e.start && evEndDate(e) >= past && evDate(e.start) <= fut)
-    .sort((a,b)=> evDate(a.start)-evDate(b.start));
+// alle Events, chronologisch
+function evAll(){
+  return (SC.events||[]).filter(e=>e && e.start).sort((a,b)=> evDate(a.start)-evDate(b.start));
 }
-function evDayMap(){
-  const map={};
-  evVisible().forEach(e=>{
+// Events, die (auch teilweise) im Monat y/m liegen
+function evInMonth(y,m){
+  const first=new Date(y,m,1), last=new Date(y,m+1,0);
+  return evAll().filter(e=>{ const s=evDate(e.start), en=evEndDate(e); return s<=last && en>=first; });
+}
+// Tag-Map nur für den angezeigten Monat (für die Punkte im Kalender)
+function evDayMap(y,m){
+  const map={}; const first=new Date(y,m,1), last=new Date(y,m+1,0);
+  evInMonth(y,m).forEach(e=>{
     let d=evDate(e.start); const end=evEndDate(e); let guard=0;
-    while(d<=end && guard<400){ const k=evISO(d); (map[k]=map[k]||[]).push(e); d=new Date(d.getTime()+86400000); guard++; }
+    while(d<=end && guard<400){ if(d>=first && d<=last){ const k=evISO(d); (map[k]=map[k]||[]).push(e); } d=new Date(d.getTime()+86400000); guard++; }
   });
   return map;
 }
@@ -573,30 +572,29 @@ function initEvents(){
     fnav.insertBefore(a, ref? ref.nextSibling : null);
   }
 
-  const first=evVisible()[0];
-  const base=first? evDate(first.start) : new Date();
-  evCal={y:base.getFullYear(), m:base.getMonth()};
+  // Start immer im aktuellen Monat
+  const now=new Date();
+  evCal={y:now.getFullYear(), m:now.getMonth()};
   sec.addEventListener("click", onEvClick);
 }
 
 function renderEvents(){
   const sec=document.getElementById("events"); if(!sec) return;
   const L=EV[currentLang]||EV.de;
-  const vis=evVisible();
-  const empty=vis.length===0;
-  sec.hidden=empty;
-  document.querySelectorAll('a[href="#events"]').forEach(a=>{ a.hidden=empty; });
-  if(empty) return;
+  const hasAny=evAll().length>0;
+  sec.hidden=!hasAny;
+  document.querySelectorAll('a[href="#events"]').forEach(a=>{ a.hidden=!hasAny; });
+  if(!hasAny) return;
   sec.querySelectorAll("[data-ev]").forEach(el=>{ const k=el.getAttribute("data-ev"); if(L[k]!=null) el.textContent=L[k]; });
   document.querySelectorAll('a[href="#events"][data-ev="nav"]').forEach(a=>{ a.textContent=L.nav; });
   renderCalendar(L);
-  renderEvList(L, vis);
+  renderEvList(L);
 }
 
 function renderCalendar(L){
   const cal=document.getElementById("sr-cal"); if(!cal || !evCal) return;
   const {y,m}=evCal;
-  const days=evDayMap();
+  const days=evDayMap(y,m);
   const todayISO=evISO(new Date());
   const startDow=(new Date(y,m,1).getDay()+6)%7;   // Montag = 0
   const dim=new Date(y,m+1,0).getDate();
@@ -621,13 +619,14 @@ function renderCalendar(L){
     <div class="sr-cal-grid">${grid}</div>`;
 }
 
-function renderEvList(L, vis){
+function renderEvList(L){
   const list=document.getElementById("sr-ev-list"); if(!list) return;
   const locale=currentLang==="en"?"en-GB":"de-CH";
-  let items=vis;
+  const {y,m}=evCal;
+  let items=evInMonth(y,m);
   if(evSel){
     const sel=evDate(evSel);
-    items=vis.filter(e=> sel>=evDate(e.start) && sel<=evEndDate(e));
+    items=items.filter(e=> sel>=evDate(e.start) && sel<=evEndDate(e));
   }
   const clear = evSel ? `<button class="sr-clear" data-cal="all">✕ ${L.all}</button>` : "";
   if(!items.length){ list.innerHTML=clear+`<p class="sr-none">${L.none}</p>`; return; }
@@ -635,7 +634,6 @@ function renderEvList(L, vis){
     const title=escapeHtml(loc(e.title));
     const locTxt=escapeHtml(loc(e.location));
     const txt=escapeHtml(loc(e.text));
-    const link=e.link?`<a class="sr-ev-link" href="${escapeHtml(e.link)}" target="_blank" rel="noopener">${L.more} ↗</a>`:"";
     const locLine=locTxt?`<span class="sr-ev-loc">📍 ${locTxt}</span>`:"";
     const timeLine=`<span class="sr-ev-time">${e.time?escapeHtml(e.time):L.allday}</span>`;
     return `<article class="sr-ev-card">
@@ -644,7 +642,6 @@ function renderEvList(L, vis){
         <h3>${title}</h3>
         <div class="sr-ev-meta">${timeLine}${locLine}</div>
         ${txt?`<p>${txt}</p>`:""}
-        ${link}
       </div>
     </article>`;
   }).join("");
@@ -665,8 +662,8 @@ function onEvClick(e){
   const nav=e.target.closest("[data-cal]");
   if(nav){
     const k=nav.getAttribute("data-cal");
-    if(k==="prev"){ evCal.m--; if(evCal.m<0){evCal.m=11;evCal.y--;} }
-    else if(k==="next"){ evCal.m++; if(evCal.m>11){evCal.m=0;evCal.y++;} }
+    if(k==="prev"){ evCal.m--; if(evCal.m<0){evCal.m=11;evCal.y--;} evSel=null; }
+    else if(k==="next"){ evCal.m++; if(evCal.m>11){evCal.m=0;evCal.y++;} evSel=null; }
     else if(k==="all"){ evSel=null; }
     renderEvents(); return;
   }
