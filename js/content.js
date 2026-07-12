@@ -202,258 +202,6 @@ const SITE_CONTENT = {
   ],
   "events": [
     {
-      "start": "2026-08-06",
-      "end": "",
-      "time": "18:30",
-      "title": {
-        "de": "Thursday Ride",
-        "en": "Thursday Ride"
-      },
-      "location": {
-        "de": "Info via Whats-App",
-        "en": "Info via Whats-App"
-      },
-      "text": {
-        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
-        "en": "Kurze Feierabend-Ausfahrt rund um Zürich."
-      },
-      "link": ""
-    },
-    {
-      "start": "2026-07-30",
-      "end": "",
-      "time": "18:30",
-      "title": {
-        "de": "Thursday Ride",
-        "en": "Thursday Ride"
-      },
-      "location": {
-        "de": "Info via Whats-App",
-        "en": "Info via Whats-App"
-      },
-      "text": {
-        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
-        "en": "Short after-work ride around Zurich."
-      },
-      "link": ""
-    },
-    {
-      "start": "2026-07-23",
-      "end": "",
-      "time": "18:30",
-      "title": {
-        "de": "Thursday Ride",
-        "en": "Thursday Ride"
-      },
-      "location": {
-        "de": "Info via Whats-App",
-        "en": "Info via Whats-App"
-      },
-      "text": {
-        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
-        "en": "Short after-work ride around Zurich."
-      },
-      "link": ""
-    },
-    {
-      "start": "2025-05-12",
-      "end": "2025-05-13",
-      "time": "08:00",
-      "title": {
-        "de": "Rennstrecke Mirecourt",
-        "en": "Racetrack Mirecourt"
-      },
-      "location": {
-        "de": "Juvaincourt (FR)",
-        "en": "Juvaincourt (FR)"
-      },
-      "text": {
-        "de": "",
-        "en": ""
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
-    },
-    {
-      "start": "2025-05-17",
-      "end": "",
-      "time": "08:00",
-      "title": {
-        "de": "Fahrtraining Interlaken",
-        "en": "Moto Training Interlaken"
-      },
-      "location": {
-        "de": "Interlaken",
-        "en": "Interlaken"
-      },
-      "text": {
-        "de": "",
-        "en": ""
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
-    },
-    {
-      "start": "2025-06-07",
-      "end": "2025-06-08",
-      "time": "08:00",
-      "title": {
-        "de": "Rennstrecke Anneau du Rhin",
-        "en": "Racetrack Anneau du Rhin"
-      },
-      "location": {
-        "de": "Biltzheim (FR)",
-        "en": "Biltzheim (FR)"
-      },
-      "text": {
-        "de": "",
-        "en": ""
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
-    },
-    {
-      "start": "2025-06-23",
-      "end": "2025-06-26",
-      "time": "08:00",
-      "title": {
-        "de": "Rennstrecke Most",
-        "en": "Racetrack Most"
-      },
-      "location": {
-        "de": "Most (CZ)",
-        "en": "Most (CZ)"
-      },
-      "text": {
-        "de": "",
-        "en": ""
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
-    },
-    {
-      "start": "2025-09-07",
-      "end": "",
-      "time": "08:00",
-      "title": {
-        "de": "Sunday Ride (Tagestour)",
-        "en": "Sunday Ride (full day)"
-      },
-      "location": {
-        "de": "Info via WhatsApp",
-        "en": "Info via WhatsApp"
-      },
-      "text": {
-        "de": "Ganztägige Ausfahrt durch die Schweiz.",
-        "en": "Full-day ride across Switzerland."
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
-    },
-    {
-      "start": "2025-09-22",
-      "end": "2025-09-23",
-      "time": "08:00",
-      "title": {
-        "de": "Rennstrecke Anneau du Rhin",
-        "en": "Racetrack Anneau du Rhin"
-      },
-      "location": {
-        "de": "Biltzheim (FR)",
-        "en": "Biltzheim (FR)"
-      },
-      "text": {
-        "de": "",
-        "en": ""
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
-    },
-    {
-      "start": "2025-10-04",
-      "end": "2025-10-11",
-      "time": "",
-      "title": {
-        "de": "Sardinien Tour",
-        "en": "Sardinia Tour"
-      },
-      "location": {
-        "de": "Sardinien (IT)",
-        "en": "Sardinia (IT)"
-      },
-      "text": {
-        "de": "Mehrtägige Jahrestour.",
-        "en": "Multi-day annual tour."
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
-    },
-    {
-      "start": "2025-10-16",
-      "end": "",
-      "time": "18:00",
-      "title": {
-        "de": "Thursday Ride",
-        "en": "Thursday Ride"
-      },
-      "location": {
-        "de": "Info via WhatsApp",
-        "en": "Info via WhatsApp"
-      },
-      "text": {
-        "de": "",
-        "en": ""
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
-    },
-    {
-      "start": "2025-10-19",
-      "end": "",
-      "time": "07:30",
-      "title": {
-        "de": "Sunday Ride – Saisonabschluss",
-        "en": "Sunday Ride – Season Closing"
-      },
-      "location": {
-        "de": "Info via WhatsApp",
-        "en": "Info via WhatsApp"
-      },
-      "text": {
-        "de": "",
-        "en": ""
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
-    },
-    {
-      "start": "2025-11-06",
-      "end": "2025-11-09",
-      "time": "",
-      "title": {
-        "de": "EICMA",
-        "en": "EICMA"
-      },
-      "location": {
-        "de": "Rho (IT)",
-        "en": "Rho (IT)"
-      },
-      "text": {
-        "de": "Motorradmesse.",
-        "en": "Motorcycle show."
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
-    },
-    {
-      "start": "2025-11-16",
-      "end": "",
-      "time": "19:00",
-      "title": {
-        "de": "Generalversammlung",
-        "en": "General Assembly"
-      },
-      "location": {
-        "de": "Info via WhatsApp",
-        "en": "Info via WhatsApp"
-      },
-      "text": {
-        "de": "",
-        "en": ""
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
-    },
-    {
       "start": "2026-03-28",
       "end": "2026-03-29",
       "time": "07:00",
@@ -468,8 +216,7 @@ const SITE_CONTENT = {
       "text": {
         "de": "",
         "en": ""
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
+      }
     },
     {
       "start": "2026-04-19",
@@ -486,8 +233,7 @@ const SITE_CONTENT = {
       "text": {
         "de": "Langsamfahren, Notbremsung, Schräglage.",
         "en": "Slow riding, emergency braking, leaning."
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
+      }
     },
     {
       "start": "2026-04-25",
@@ -504,13 +250,12 @@ const SITE_CONTENT = {
       "text": {
         "de": "",
         "en": ""
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
+      }
     },
     {
       "start": "2026-04-26",
       "end": "",
-      "time": "08:00",
+      "time": "08:30",
       "title": {
         "de": "Season Start (Auffrischung) – Wiederholung",
         "en": "Season Start (Refresher) – Repeat"
@@ -522,8 +267,7 @@ const SITE_CONTENT = {
       "text": {
         "de": "",
         "en": ""
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
+      }
     },
     {
       "start": "2026-06-13",
@@ -540,13 +284,12 @@ const SITE_CONTENT = {
       "text": {
         "de": "Mehrtägige Jahrestour: Schwarzwald, Bayern, Tschechien, Österreich, Vorarlberg.",
         "en": "Multi-day annual tour: Black Forest, Bavaria, Czech Republic, Austria, Vorarlberg."
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
+      }
     },
     {
       "start": "2026-06-28",
       "end": "",
-      "time": "07:00",
+      "time": "08:30",
       "title": {
         "de": "Sunday Ride (Tagestour)",
         "en": "Sunday Ride (full day)"
@@ -558,8 +301,7 @@ const SITE_CONTENT = {
       "text": {
         "de": "Ganztägige Ausfahrt durch die Schweiz.",
         "en": "Full-day ride across Switzerland."
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
+      }
     },
     {
       "start": "2026-07-09",
@@ -576,8 +318,7 @@ const SITE_CONTENT = {
       "text": {
         "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
         "en": "Short after-work ride around Zurich."
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
+      }
     },
     {
       "start": "2026-07-16",
@@ -594,13 +335,12 @@ const SITE_CONTENT = {
       "text": {
         "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
         "en": "Short after-work ride around Zurich."
-      },
-      "link": "https://www.sunset-riders.ch/event-list"
+      }
     },
     {
       "start": "2026-07-19",
       "end": "",
-      "time": "07:00",
+      "time": "08:30",
       "title": {
         "de": "Sunday Ride (Tagestour)",
         "en": "Sunday Ride (full day)"
@@ -612,8 +352,381 @@ const SITE_CONTENT = {
       "text": {
         "de": "Ganztägige Ausfahrt durch die Schweiz.",
         "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-07-09",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
       },
-      "link": "https://www.sunset-riders.ch/event-list"
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-07-16",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-07-23",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-07-30",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-08-06",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-08-13",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-08-20",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-08-27",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-09-03",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-09-10",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-09-17",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-09-24",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-10-01",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-10-08",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-10-15",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
+      "start": "2026-07-19",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-07-19",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-08-09",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-08-30",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-09-13",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-10-04",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Sunday Ride (Tagestour)",
+        "en": "Sunday Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt durch die Schweiz.",
+        "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-10-18",
+      "end": "",
+      "time": "08:30",
+      "title": {
+        "de": "Season Schlussfahrt (Tagestour)",
+        "en": "Season Finale Ride (full day)"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Ganztägige Ausfahrt zum Abschluss der Saison.",
+        "en": "A full-day ride to wrap up the season."
+      }
     }
   ]
 };
