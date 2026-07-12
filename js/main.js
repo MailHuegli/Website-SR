@@ -467,13 +467,13 @@ const EV = {
   de:{ eyebrow:"Kalender", title:"Events", nav:"Events",
        lead:"Wähle einen Monat, um die Termine zu sehen. Der Kalender startet im aktuellen Monat.",
        none:"In diesem Monat sind keine Termine.",
-       more:"Mehr Infos", allday:"ganztägig", all:"Ganzen Monat anzeigen",
+       allday:"ganztägig", all:"Ganzen Monat anzeigen",
        months:["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"],
        dow:["Mo","Di","Mi","Do","Fr","Sa","So"] },
   en:{ eyebrow:"Calendar", title:"Events", nav:"Events",
        lead:"Pick a month to see the events. The calendar starts on the current month.",
        none:"No events this month.",
-       more:"More info", allday:"all day", all:"Show whole month",
+       allday:"all day", all:"Show whole month",
        months:["January","February","March","April","May","June","July","August","September","October","November","December"],
        dow:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"] }
 };
@@ -538,8 +538,6 @@ function initEvents(){
   .sr-ev-meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-bottom:8px;font-size:.85rem;color:var(--muted);}
   .sr-ev-time{color:var(--accent);font-weight:600;}
   .sr-ev-body p{margin:0 0 8px;font-size:.92rem;color:var(--muted);}
-  .sr-ev-link{font-size:.86rem;font-weight:600;color:var(--accent);}
-  .sr-ev-link:hover{color:var(--accent-hi);}
   .sr-events .section-lead{max-width:640px;}
   `;
   const st=document.createElement("style"); st.textContent=css; document.head.appendChild(st);
