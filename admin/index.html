@@ -439,6 +439,7 @@ async function connect(){
     if($("#remember") && $("#remember").checked) saveToken(state.token); else clearToken();
     toast("Verbunden mit "+OWNER+"/"+REPO,"ok");
     if(state._seededEvents) toast("Kommende Events von sunset-riders.ch eingespielt — unter „Events / Kalender“ prüfen und veröffentlichen.","ok");
+    if(state._dupsRemoved) toast(state._dupsRemoved+" doppelte Events entfernt — mit „Speichern“ übernehmen.","ok");
   }catch(e){
     state.token=""; clearToken();
     msg.innerHTML='<span style="color:var(--err)">Verbindung fehlgeschlagen: '+esc(e.message)+'</span>';
@@ -460,6 +461,9 @@ async function loadAll(){
   // normalise arrays
   ["activities","news","gallery","team","downloads","events"].forEach(k=>{if(!Array.isArray(state.content[k]))state.content[k]=[];});
   if(!state.content.images)state.content.images={};
+  // vorhandene doppelte Events automatisch bereinigen
+  { const b=state.content.events.length; state.content.events=dedupeEvents(state.content.events);
+    if(state.content.events.length!==b){ state._dupsRemoved=b-state.content.events.length; state.contentDirty=true; } }
   // img/ + downloads/
   const imgs=await listDir("img");
   state.images=imgs.filter(f=>f.type==="file"&&IMG_RE.test(f.name)).map(f=>({path:f.path,name:f.name,sha:f.sha,size:f.size,download_url:f.download_url,isNew:false,isDeleted:false}));
@@ -742,8 +746,14 @@ function pageDownloads(v){
 function pageEvents(v){
   const arr=state.content.events||(state.content.events=[]);
   const addBtn=el("button",{class:"btn btn-ghost btn-sm",onclick:()=>{arr.unshift({start:new Date().toISOString().slice(0,10),end:"",time:"",title:{de:"Neues Event",en:"New event"},location:{de:"",en:""},text:{de:"",en:""}});markDirty();render();}},"＋ Event");
+  const delAllBtn=el("button",{class:"btn btn-danger btn-sm",onclick:()=>{
+    if(!(state.content.events&&state.content.events.length)){ toast("Es sind keine Events vorhanden.","ok"); return; }
+    if(!confirm("Wirklich ALLE "+state.content.events.length+" Events löschen? Das lässt sich nur durch erneutes Hinzufügen oder einen Excel-Upload rückgängig machen."))return;
+    state.content.events=[]; markDirty(); render();
+    toast("Alle Events gelöscht — mit „Speichern“ veröffentlichen.","ok");
+  }},"🗑 Alle löschen");
   const saveBtn=el("button",{class:"btn btn-primary btn-sm",onclick:function(){savePublish(this);}},"💾 Speichern");
-  pageHead(v,"Events / Kalender","Termine für den Website-Kalender. Auf der Website wird immer der gewählte Monat angezeigt (Start: aktueller Monat). Alle Events bleiben gespeichert.",[addBtn,saveBtn]);
+  pageHead(v,"Events / Kalender","Termine für den Website-Kalender. Auf der Website wird immer der gewählte Monat angezeigt (Start: aktueller Monat). Alle Events bleiben gespeichert.",[addBtn,delAllBtn,saveBtn]);
 
   v.append(excelCard());
 
@@ -821,6 +831,12 @@ function excelCard(){
   card.append(el("div",{style:"display:flex;gap:8px;align-items:center;flex-wrap:wrap;"},upBtn,tplBtn,fi,status));
   return card;
 }
+function eventKey(e){ return [e.start||"",e.end||"",e.time||"",(e.title&&e.title.de)||"",(e.title&&e.title.en)||""].join("|"); }
+function dedupeEvents(arr){
+  const seen=new Set(), out=[];
+  for(const e of (arr||[])){ if(!e)continue; const k=eventKey(e); if(seen.has(k))continue; seen.add(k); out.push(e); }
+  return out;
+}
 async function importEventsExcel(file,status){
   status.style.color=""; status.textContent="Lese Datei …";
   try{
@@ -828,9 +844,9 @@ async function importEventsExcel(file,status){
     const wb=XLSX.read(await file.arrayBuffer(),{type:"array",cellDates:true});
     const ws=wb.Sheets[wb.SheetNames[0]];
     const rows=XLSX.utils.sheet_to_json(ws,{defval:""});
-    const events=rows.map(rowToEvent).filter(Boolean);
+    const events=dedupeEvents(rows.map(rowToEvent).filter(Boolean));
     if(!events.length){ status.style.color="var(--err)"; status.textContent="Keine gültigen Zeilen gefunden — bitte die Vorlage verwenden."; return; }
-    if(!confirm(events.length+" Events aus der Excel-Datei übernehmen? Die aktuelle Liste wird ersetzt.")){ status.textContent=""; return; }
+    if(!confirm(events.length+" Events aus der Excel-Datei übernehmen? Die aktuelle Liste wird komplett ersetzt.")){ status.textContent=""; return; }
     state.content.events=events;
     markDirty(); render();
     toast(events.length+" Events aus Excel geladen — mit „Speichern“ veröffentlichen.","ok");
