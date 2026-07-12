@@ -321,6 +321,23 @@ const SITE_CONTENT = {
       }
     },
     {
+      "start": "2026-07-16",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
+      }
+    },
+    {
       "start": "2026-07-19",
       "end": "",
       "time": "08:30",
@@ -335,6 +352,23 @@ const SITE_CONTENT = {
       "text": {
         "de": "Ganztägige Ausfahrt durch die Schweiz.",
         "en": "Full-day ride across Switzerland."
+      }
+    },
+    {
+      "start": "2026-07-09",
+      "end": "",
+      "time": "18:30",
+      "title": {
+        "de": "Thursday Ride",
+        "en": "Thursday Ride"
+      },
+      "location": {
+        "de": "Info via WhatsApp",
+        "en": "Info via WhatsApp"
+      },
+      "text": {
+        "de": "Kurze Feierabend-Ausfahrt rund um Zürich.",
+        "en": "Short after-work ride around Zurich."
       }
     },
     {
