@@ -60,13 +60,14 @@ const EN = {
   "form.sent": "Thanks! Your message has been sent — we'll get back to you soon.",
   "form.sending": "Sending …",
   "form.error": "Sorry, sending didn't work. Please email us at sunset.riders.2023@gmail.com.",
-  "footer.tagline": "Sunset Riders — founded 2023 in Zurich."
+  "footer.tagline": "Sunset Riders — founded 2023 in Zurich.",
+  "footer.privacy": "Privacy notice: this website is hosted via GitHub Pages. Contact form submissions are forwarded via FormSubmit to sunset.riders.2023@gmail.com. Names and photos in the Team and Gallery sections are published only with the consent of the people shown. Questions: sunset.riders.2023@gmail.com."
 };
 
 const FORM_SENT_DE = "Danke! Deine Nachricht wurde gesendet — wir melden uns bald.";
 const FORM_SENDING_DE = "Wird gesendet …";
 const FORM_ERROR_DE = "Senden hat leider nicht geklappt. Bitte schreibt uns an sunset.riders.2023@gmail.com.";
-const CONTACT_EMAIL = "sunset.riders.2023@gmail.com";
+const CONTACT_EMAIL = "andrea.huegli@gmx.ch";
 const DEFAULT_LANG = "en";   // Startsprache der Website
 
 /* ---------- content (from js/content.js) ---------- */
