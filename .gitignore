@@ -1,0 +1,25 @@
+# Betriebssystem-Dateien
+.DS_Store
+Thumbs.db
+desktop.ini
+ 
+# Editor-/IDE-Dateien
+.vscode/
+.idea/
+*.swp
+ 
+# Lokale Umgebungs-/Geheimnis-Dateien (zur Sicherheit, falls je verwendet)
+.env
+.env.local
+*token*.txt
+*credentials*
+ 
+# Backups & temporäre Dateien
+*.bak
+*.tmp
+*.zip
+~$*
+ 
+# Node (falls später Build-Tools dazukommen)
+node_modules/
+npm-debug.log
