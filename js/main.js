@@ -59,20 +59,29 @@ const EN = {
   "form.submit": "Send message",
   "form.sent": "Thanks! Your message has been sent — we'll get back to you soon.",
   "form.sending": "Sending …",
-  "form.error": "Sorry, sending didn't work. Please email us at sunset.riders.2023@gmail.com.",
   "footer.tagline": "Sunset Riders — founded 2023 in Zurich."
 };
 
 const FORM_SENT_DE = "Danke! Deine Nachricht wurde gesendet — wir melden uns bald.";
 const FORM_SENDING_DE = "Wird gesendet …";
-const FORM_ERROR_DE = "Senden hat leider nicht geklappt. Bitte schreibt uns an sunset.riders.2023@gmail.com.";
-const CONTACT_EMAIL = "sunset.riders.2023@gmail.com";
+const CONTACT_EMAIL_FALLBACK = "sunset.riders.2023@gmail.com";  // wird benutzt, falls in content.js keine E-Mail hinterlegt ist
 const DEFAULT_LANG = "en";   // Startsprache der Website
 
 /* ---------- content (from js/content.js) ---------- */
 const SC = (typeof SITE_CONTENT !== "undefined")
   ? SITE_CONTENT
   : { images:{}, activities:[], news:[], gallery:[] };
+
+// Kontakt-E-Mail (Ziel des Kontaktformulars) — editierbar über die Website-Verwaltung
+// (Bereich „Rechtliches“), gespeichert in content.js unter SITE_CONTENT.settings.contactEmail.
+function contactEmail(){
+  return (SC.settings && SC.settings.contactEmail) ? SC.settings.contactEmail : CONTACT_EMAIL_FALLBACK;
+}
+function formErrorText(){
+  return currentLang === "en"
+    ? "Sorry, sending didn't work. Please email us at " + contactEmail() + "."
+    : "Senden hat leider nicht geklappt. Bitte schreibt uns an " + contactEmail() + ".";
+}
 
 // Der Browser merkt sich normalerweise die zuletzt besuchte Scroll-Position und
 // springt beim erneuten Öffnen dorthin. Das schalten wir ab, damit die Seite
@@ -137,6 +146,7 @@ function applyLang(lang){
   renderEvents();
   renderTeam();
   renderDownloads();
+  renderFooterPrivacy();
 }
 
 function initLang(){
@@ -247,6 +257,25 @@ function renderDownloads(){
     const title = escapeHtml(loc(d.title) || (d.file || "").split("/").pop());
     return `<a class="download-item" href="${escapeHtml(d.file || "")}" download>${title}</a>`;
   }).join("");
+}
+
+// Datenschutz-Kurztext im Footer — Inhalt kommt aus content.js (SITE_CONTENT.settings.privacyText),
+// editierbar über die Website-Verwaltung (Bereich „Rechtliches"). Wird per JS in den bestehenden
+// Footer eingefügt, damit index.html dafür nicht angepasst werden muss.
+function renderFooterPrivacy(){
+  const footerInner = document.querySelector(".site-footer .footer-inner");
+  if (!footerInner) return;
+  const text = (SC.settings && SC.settings.privacyText) ? loc(SC.settings.privacyText) : "";
+  let p = document.getElementById("footer-privacy");
+  if (!text){ if (p) p.hidden = true; return; }
+  if (!p){
+    p = document.createElement("p");
+    p.id = "footer-privacy";
+    p.style.cssText = "font-size:.72rem;line-height:1.5;opacity:.6;margin-top:10px;max-width:640px;";
+    footerInner.appendChild(p);
+  }
+  p.hidden = false;
+  p.textContent = text;
 }
 
 function setSectionImages(){
@@ -393,7 +422,7 @@ function initContactForm(){
     note.textContent = currentLang === "en" ? EN["form.sending"] : FORM_SENDING_DE;
     if (submitBtn) submitBtn.disabled = true;
     try {
-      const res = await fetch("https://formsubmit.co/ajax/" + CONTACT_EMAIL, {
+      const res = await fetch("https://formsubmit.co/ajax/" + contactEmail(), {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
@@ -413,7 +442,7 @@ function initContactForm(){
       note.textContent = currentLang === "en" ? EN["form.sent"] : FORM_SENT_DE;
       form.reset();
     } catch (err) {
-      note.textContent = currentLang === "en" ? EN["form.error"] : FORM_ERROR_DE;
+      note.textContent = formErrorText();
     } finally {
       if (submitBtn) submitBtn.disabled = false;
     }
