@@ -659,7 +659,8 @@ const SITE_CONTENT = {
         "de": "Ganztägige Ausfahrt zum Abschluss der Saison.",
         "en": "A full-day ride to wrap up the season."
       }
-  ],
+    }
+ ],
   "settings": {
     "contactEmail": "andrea.huegli@gmx.ch",
     "privacyText": {
