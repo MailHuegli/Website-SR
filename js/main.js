@@ -162,9 +162,19 @@ function initLang(){
 }
 
 /* ---------- content rendering ---------- */
+// Blendet den/die Navigations-Link(s) zu #news mit aus, wenn kein News-Abschnitt
+// vorhanden ist — verhindert einen Menüpunkt, der ins Leere scrollt.
+function setNewsNavVisible(visible){
+  document.querySelectorAll('a[href="#news"]').forEach(a => {
+    const li = a.closest("li");
+    (li || a).hidden = !visible;
+  });
+}
+
 function renderNews(){
   const feed = document.getElementById("news-feed");
   if (!feed) return;
+  const section = document.getElementById("news") || feed.closest("section");
   // Nur Meldungen der letzten 6 Monate anzeigen (ältere bleiben in content.js
   // gespeichert, werden aber nicht mehr angezeigt).
   const cutoff = new Date();
@@ -175,9 +185,15 @@ function renderNews(){
   const locale = currentLang === "en" ? "en-GB" : "de-CH";
   const fmt = new Intl.DateTimeFormat(locale, { day:"2-digit", month:"long", year:"numeric" });
   if (!items.length){
-    feed.innerHTML = `<p class="news-empty">${currentLang === "en" ? "News coming soon." : "Bald gibt es hier Neuigkeiten."}</p>`;
+    // Keine News vorhanden -> ganzer Abschnitt (inkl. Überschrift) wird ausgeblendet,
+    // statt einen leeren Platzhalter zu zeigen.
+    if (section) section.hidden = true;
+    setNewsNavVisible(false);
+    feed.innerHTML = "";
     return;
   }
+  if (section) section.hidden = false;
+  setNewsNavVisible(true);
   feed.innerHTML = items.map(item => {
     const title = escapeHtml(loc(item.title));
     const excerpt = escapeHtml(loc(item.excerpt));
