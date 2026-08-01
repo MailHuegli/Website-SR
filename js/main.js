@@ -164,10 +164,13 @@ function initLang(){
 /* ---------- content rendering ---------- */
 // Blendet den/die Navigations-Link(s) zu #news mit aus, wenn kein News-Abschnitt
 // vorhanden ist — verhindert einen Menüpunkt, der ins Leere scrollt.
+// Setzt zusätzlich zum hidden-Attribut ein Inline-style, da CSS-Regeln (z. B. für
+// .nav-link) das hidden-Attribut sonst überschreiben können.
 function setNewsNavVisible(visible){
   document.querySelectorAll('a[href="#news"]').forEach(a => {
-    const li = a.closest("li");
-    (li || a).hidden = !visible;
+    const target = a.closest("li") || a;
+    target.hidden = !visible;
+    target.style.display = visible ? "" : "none";
   });
 }
 
@@ -187,12 +190,12 @@ function renderNews(){
   if (!items.length){
     // Keine News vorhanden -> ganzer Abschnitt (inkl. Überschrift) wird ausgeblendet,
     // statt einen leeren Platzhalter zu zeigen.
-    if (section) section.hidden = true;
+    if (section) { section.hidden = true; section.style.display = "none"; }
     setNewsNavVisible(false);
     feed.innerHTML = "";
     return;
   }
-  if (section) section.hidden = false;
+  if (section) { section.hidden = false; section.style.display = ""; }
   setNewsNavVisible(true);
   feed.innerHTML = items.map(item => {
     const title = escapeHtml(loc(item.title));
