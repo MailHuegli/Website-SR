@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Begrenzt, wohin diese Seite Daten senden darf. Selbst wenn es jemand
+     schaffen sollte, hier Code einzuschleusen, kann der Token nirgendwo
+     anders hin als zur GitHub-API. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.githubusercontent.com; connect-src 'self' https://api.github.com https://*.githubusercontent.com; form-action 'none'; base-uri 'none'; object-src 'none'">
 <title>Sunset Riders — Website-Verwaltung</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -152,8 +156,10 @@ code{background:var(--bg-3);padding:1px 6px;border-radius:5px;font-size:.85em;}
     <div class="login-sub">Website-Verwaltung</div>
 
     <div class="hint">
-      <b>Anmeldung mit deinem GitHub-Token.</b><br>
-      Mit „Token merken" bleibst du auf diesem Gerät angemeldet — beim nächsten Öffnen musst du ihn nicht erneut eingeben.
+      <b>Erste Anmeldung auf diesem Gerät.</b><br>
+      Gib deinen GitHub-Token ein und wähle ein Passwort. Der Token wird damit
+      <b>verschlüsselt</b> auf diesem Gerät abgelegt — ohne das Passwort ist er
+      unbrauchbar. Beim nächsten Öffnen genügt das Passwort.
     </div>
 
     <div class="field">
@@ -162,8 +168,18 @@ code{background:var(--bg-3);padding:1px 6px;border-radius:5px;font-size:.85em;}
     </div>
     <label style="display:flex;align-items:center;gap:8px;font-size:.88rem;color:var(--muted);margin-bottom:14px;cursor:pointer;">
       <input type="checkbox" id="remember" checked style="width:16px;height:16px;accent-color:var(--accent);">
-      Token auf diesem Gerät merken
+      Token auf diesem Gerät merken (verschlüsselt)
     </label>
+    <div id="pwFields">
+      <div class="field">
+        <label for="lpw">Passwort für dieses Gerät</label>
+        <input type="password" id="lpw" autocomplete="new-password" placeholder="mindestens 10 Zeichen">
+      </div>
+      <div class="field">
+        <label for="lpw2">Passwort wiederholen</label>
+        <input type="password" id="lpw2" autocomplete="new-password">
+      </div>
+    </div>
     <button class="btn btn-primary" id="connectBtn" style="width:100%;">Verbinden</button>
     <div id="loginMsg" class="small" style="margin-top:12px;min-height:20px;"></div>
 
@@ -179,21 +195,25 @@ code{background:var(--bg-3);padding:1px 6px;border-radius:5px;font-size:.85em;}
   </div>
 </div>
 
-<!-- ============ LOGIN-GATE (nur online, wenn admin/auth.json existiert) ============ -->
+<!-- ============ LOGIN-GATE (entsperrt den verschluesselten Token) ============ -->
 <div id="gate">
   <div class="login-card">
     <div class="login-logo">Sunset&nbsp;Riders</div>
-    <div class="login-sub">Anmeldung</div>
-    <div class="field">
-      <label for="gu">Benutzername</label>
-      <input type="text" id="gu" autocomplete="username" spellcheck="false">
+    <div class="login-sub">Website-Verwaltung</div>
+    <div class="hint">
+      Dein GitHub-Token liegt verschlüsselt auf diesem Gerät.
+      Das Passwort entschlüsselt ihn — es wird nirgends gespeichert und nirgends übertragen.
     </div>
     <div class="field">
       <label for="gp">Passwort</label>
       <input type="password" id="gp" autocomplete="current-password">
     </div>
-    <button class="btn btn-primary" id="gateBtn" style="width:100%;">Anmelden</button>
+    <button class="btn btn-primary" id="gateBtn" style="width:100%;">Entsperren</button>
     <div id="gateMsg" class="small" style="margin-top:12px;min-height:20px;"></div>
+    <div class="small muted" style="margin-top:16px;">
+      Passwort vergessen? <a href="#" id="resetVault" style="color:var(--accent);">Zugang auf diesem Gerät entfernen</a>
+      und mit dem Token neu anmelden.
+    </div>
   </div>
 </div>
 
@@ -232,7 +252,6 @@ const CONTENT_PATH = "js/content.js";
 const MAINJS_PATH  = "js/main.js";
 
 /* Online-Zugang (GitHub Pages) */
-const AUTH_PATH  = "admin/auth.json";
 const ADMIN_PATH = "admin/index.html";
 const ADMIN_URL  = `https://${OWNER}.github.io/${REPO}/admin/`;
 /* base64 der Online-Version dieser App — wird beim "Online stellen"-Knopf nach
@@ -405,31 +424,110 @@ function thumbUrl(path){
 /* ============================================================
    CONNECT
    ============================================================ */
-/* Token merken (auf diesem Geraet) */
-const TOKEN_KEY="srAdminToken";
-function saveToken(t){try{localStorage.setItem(TOKEN_KEY,t);}catch(e){}}
-function loadToken(){try{return localStorage.getItem(TOKEN_KEY)||"";}catch(e){return "";}}
-function clearToken(){try{localStorage.removeItem(TOKEN_KEY);}catch(e){}}
+/* ------------------------------------------------------------
+   TOKEN-TRESOR — der Token liegt nie im Klartext auf dem Geraet.
+   Aus dem Passwort wird per PBKDF2-SHA256 ein Schluessel abgeleitet,
+   damit wird der Token per AES-GCM verschluesselt; im localStorage
+   steht nur der Geheimtext. Wer ihn ohne Passwort ausliest - etwa
+   Code einer anderen Seite auf derselben Domain - hat nichts davon.
+   AES-GCM ist authentifiziert: das erfolgreiche Entschluesseln IST
+   der Beweis, dass das Passwort stimmt. Es braucht deshalb keinen
+   veroeffentlichten Passwort-Hash mehr (frueher: admin/auth.json).
+   ------------------------------------------------------------ */
+const VAULT_KEY  = "srAdminVault";
+const LEGACY_KEY = "srAdminToken";   // alte Klartext-Ablage, wird entfernt
+const VAULT_ITER = 600000;           // OWASP-Empfehlung fuer PBKDF2-SHA256
+const VAULT_DAYS = 30;               // danach Token neu eingeben
+const CRYPTO_OK  = !!(window.crypto && window.crypto.subtle);
+
+function b64FromBytes(b){let s="";for(const x of b)s+=String.fromCharCode(x);return btoa(s);}
+function bytesFromB64(s){const bin=atob(s);const a=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}
+
+async function vaultKey(password,salt,iter){
+  const base=await crypto.subtle.importKey("raw",new TextEncoder().encode(password),"PBKDF2",false,["deriveKey"]);
+  return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:iter,hash:"SHA-256"},
+    base,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
+}
+function vaultLoad(){try{const r=localStorage.getItem(VAULT_KEY);return r?JSON.parse(r):null;}catch(e){return null;}}
+function vaultClear(){try{localStorage.removeItem(VAULT_KEY);}catch(e){}}
+function vaultExpired(v){return !v||!v.exp||Date.now()>v.exp;}
+function purgeLegacyToken(){try{if(localStorage.getItem(LEGACY_KEY)!==null){localStorage.removeItem(LEGACY_KEY);return true;}}catch(e){}return false;}
+
+async function vaultSave(password,token){
+  if(!CRYPTO_OK)return false;
+  const salt=crypto.getRandomValues(new Uint8Array(16));
+  const iv  =crypto.getRandomValues(new Uint8Array(12));
+  const key =await vaultKey(password,salt,VAULT_ITER);
+  const ct  =await crypto.subtle.encrypt({name:"AES-GCM",iv},key,new TextEncoder().encode(token));
+  try{
+    localStorage.setItem(VAULT_KEY,JSON.stringify({v:1,iter:VAULT_ITER,
+      salt:b64FromBytes(salt),iv:b64FromBytes(iv),ct:bufToB64(ct),
+      exp:Date.now()+VAULT_DAYS*864e5}));
+  }catch(e){return false;}
+  return true;
+}
+async function vaultUnlock(password){
+  const v=vaultLoad();
+  if(!v)throw new Error("Auf diesem Geraet ist kein Zugang hinterlegt.");
+  if(vaultExpired(v)){vaultClear();throw new Error("Der gespeicherte Zugang ist abgelaufen — bitte Token neu eingeben.");}
+  const key=await vaultKey(password,bytesFromB64(v.salt),v.iter||VAULT_ITER);
+  const pt =await crypto.subtle.decrypt({name:"AES-GCM",iv:bytesFromB64(v.iv)},key,bytesFromB64(v.ct));
+  return new TextDecoder().decode(pt);
+}
 
 $("#connectBtn").addEventListener("click",()=>connect());
 $("#tok").addEventListener("keydown",e=>{if(e.key==="Enter")connect();});
+$("#lpw").addEventListener("keydown",e=>{if(e.key==="Enter")connect();});
+$("#lpw2").addEventListener("keydown",e=>{if(e.key==="Enter")connect();});
+$("#remember").addEventListener("change",syncPwFields);
 $("#gateBtn").addEventListener("click",gateSubmit);
 $("#gp").addEventListener("keydown",e=>{if(e.key==="Enter")gateSubmit();});
+$("#resetVault").addEventListener("click",e=>{
+  e.preventDefault();
+  if(!confirm("Den gespeicherten Zugang auf diesem Geraet entfernen? Du brauchst danach wieder deinen GitHub-Token."))return;
+  vaultClear(); location.reload();
+});
+
+function syncPwFields(){
+  const on=$("#remember").checked && CRYPTO_OK;
+  $("#pwFields").style.display = on ? "block" : "none";
+}
+
+function showGate(){
+  $("#login").style.display="none";
+  $("#gate").style.display="flex";
+  setTimeout(()=>{const gp=$("#gp");if(gp)gp.focus();},50);
+}
+function showLogin(){
+  $("#gate").style.display="none";
+  $("#login").style.display="flex";
+  if(!CRYPTO_OK){
+    $("#remember").checked=false; $("#remember").disabled=true;
+    $("#loginMsg").innerHTML='<span style="color:var(--warn)">Dieser Browser kann nichts verschluesselt ablegen — der Token gilt nur fuer diese Sitzung.</span>';
+  }
+  syncPwFields();
+  setTimeout(()=>{const t=$("#tok");if(t)t.focus();},50);
+}
 
 async function boot(){
-  const gated = await maybeGate();     // Login-Gate nur online
-  if(!gated) tryAutoConnect();          // lokal: direkt mit gemerktem Token verbinden
-}
-function tryAutoConnect(){
-  const t=loadToken();
-  if(t){ $("#tok").value=t; if($("#remember"))$("#remember").checked=true; connect(); }
+  const purged=purgeLegacyToken();     // alte Klartext-Ablage raeumen
+  const v=vaultLoad();
+  if(v && !vaultExpired(v)) showGate();
+  else { if(v) vaultClear(); showLogin(); }
+  if(purged) setTimeout(()=>toast("Ein im Klartext gespeicherter Token wurde entfernt. Bitte widerrufe ihn auf GitHub und melde dich neu an.","err"),600);
 }
 boot();
 
-async function connect(){
-  const tok=$("#tok").value.trim();
+async function connect(fromVault){
   const msg=$("#loginMsg");
+  const tok = fromVault ? state.token : $("#tok").value.trim();
+  const remember = !fromVault && $("#remember").checked && CRYPTO_OK;
+  const pw = $("#lpw").value, pw2 = $("#lpw2").value;
   if(!tok){msg.innerHTML='<span style="color:var(--err)">Bitte Token eingeben.</span>';return;}
+  if(remember){
+    if(pw.length<10){msg.innerHTML='<span style="color:var(--err)">Passwort zu kurz — mindestens 10 Zeichen.</span>';return;}
+    if(pw!==pw2){msg.innerHTML='<span style="color:var(--err)">Die beiden Passwoerter stimmen nicht überein.</span>';return;}
+  }
   state.token=tok;
   const btn=$("#connectBtn");btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Verbinde…';
   msg.textContent="";
@@ -440,13 +538,22 @@ async function connect(){
     $("#app").style.display="block";
     buildNav();
     render();
-    if($("#remember") && $("#remember").checked) saveToken(state.token); else clearToken();
+    if(remember){
+      const ok=await vaultSave(pw,state.token);
+      $("#lpw").value=""; $("#lpw2").value=""; $("#tok").value="";
+      toast(ok?"Token verschluesselt auf diesem Geraet gespeichert.":"Speichern fehlgeschlagen — Token gilt nur fuer diese Sitzung.",ok?"ok":"err");
+    }else if(!fromVault){ vaultClear(); }
     toast("Verbunden mit "+OWNER+"/"+REPO,"ok");
     if(state._seededEvents) toast("Kommende Events von sunset-riders.ch eingespielt — unter „Events / Kalender“ prüfen und veröffentlichen.","ok");
     if(state._dupsRemoved) toast(state._dupsRemoved+" doppelte Events entfernt — mit „Speichern“ übernehmen.","ok");
   }catch(e){
-    state.token=""; clearToken();
-    msg.innerHTML='<span style="color:var(--err)">Verbindung fehlgeschlagen: '+esc(e.message)+'</span>';
+    state.token="";
+    if(fromVault){                       // gespeicherter Token wurde abgelehnt (widerrufen/abgelaufen)
+      vaultClear(); showLogin();
+      msg.innerHTML='<span style="color:var(--err)">Der gespeicherte Token wurde abgelehnt ('+esc(e.message)+'). Bitte melde dich mit einem gueltigen Token neu an.</span>';
+    }else{
+      msg.innerHTML='<span style="color:var(--err)">Verbindung fehlgeschlagen: '+esc(e.message)+'</span>';
+    }
   }finally{
     btn.disabled=false;btn.textContent="Verbinden";
   }
@@ -509,8 +616,9 @@ async function refreshFilesAfterPublish(){
 
 $("#logoutBtn").addEventListener("click",()=>{
   if(isDirty()&&!confirm("Es gibt ungespeicherte Änderungen. Wirklich abmelden?"))return;
-  clearToken();   // gemerkten Token entfernen
-  location.reload();
+  state.token="";        // Sitzung beenden; der verschluesselte Tresor bleibt bestehen,
+  location.reload();     // beim naechsten Oeffnen genuegt wieder das Passwort
+
 });
 
 /* ============================================================
@@ -907,49 +1015,29 @@ async function activateCalendar(btn,status){
 }
 
 /* ============================================================
-   PASSWORT-HASHING (PBKDF2-SHA256) + LOGIN-GATE
+   LOGIN-GATE
    ============================================================ */
-const PBKDF2_ITER = 150000;
-function hexToBytes(h){const a=new Uint8Array(h.length/2);for(let i=0;i<a.length;i++)a[i]=parseInt(h.substr(i*2,2),16);return a;}
-function bytesToHex(b){return [...b].map(x=>x.toString(16).padStart(2,"0")).join("");}
-async function pbkdf2Hex(password,saltHex,iter){
-  const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(password),"PBKDF2",false,["deriveBits"]);
-  const bits=await crypto.subtle.deriveBits({name:"PBKDF2",salt:hexToBytes(saltHex),iterations:iter,hash:"SHA-256"},key,256);
-  return bytesToHex(new Uint8Array(bits));
-}
-
-async function maybeGate(){
-  // Nur online (GitHub Pages) einen Login verlangen. Lokal (file://) nicht —
-  // so kannst du die App weiterhin direkt per Doppelklick nutzen.
-  if(!/^https?:$/.test(location.protocol)) return false;
-  let cfg=null;
-  try{ const r=await fetch("auth.json",{cache:"no-store"}); if(r.ok) cfg=await r.json(); }catch(e){}
-  if(cfg && cfg.hash){
-    window.__authCfg=cfg;
-    const gu=$("#gu"); if(gu&&cfg.user) gu.value=cfg.user;
-    $("#login").style.display="none";
-    $("#gate").style.display="flex";
-    return true;
-  }
-  return false;
-}
+/* Passwort eingeben -> Token entschluesseln -> verbinden.
+   Ein falsches Passwort scheitert bereits an der Entschluesselung; es gibt
+   nichts zu vergleichen und nichts, was oeffentlich nachgeschlagen werden koennte. */
 async function gateSubmit(){
-  const cfg=window.__authCfg||{};
-  const u=$("#gu").value.trim(), p=$("#gp").value;
+  const p=$("#gp").value;
   const msg=$("#gateMsg");
   msg.textContent="";
-  const btn=$("#gateBtn"); btn.disabled=true; const old=btn.textContent; btn.innerHTML='<span class="spinner"></span>';
+  if(!p){ msg.innerHTML='<span style="color:var(--err)">Bitte Passwort eingeben.</span>'; return; }
+  const btn=$("#gateBtn"); btn.disabled=true; const old=btn.textContent; btn.innerHTML='<span class="spinner"></span> Entsperre…';
   try{
-    const h=await pbkdf2Hex(p, cfg.salt, cfg.iterations||PBKDF2_ITER);
-    if(u===cfg.user && h===cfg.hash){
-      $("#gate").style.display="none";
-      $("#login").style.display="flex";
-      tryAutoConnect();                 // gemerkten Token gleich nutzen
-      if(!loadToken()) $("#tok").focus();
-    }else{
-      msg.innerHTML='<span style="color:var(--err)">Benutzername oder Passwort falsch.</span>';
-    }
-  }catch(e){ msg.innerHTML='<span style="color:var(--err)">Fehler: '+esc(e.message)+'</span>'; }
+    const tok=await vaultUnlock(p);     // wirft, wenn das Passwort nicht stimmt
+    $("#gp").value="";
+    $("#gate").style.display="none";
+    $("#login").style.display="flex";
+    state.token=tok;
+    await connect(true);
+  }catch(e){
+    const abgelaufen=/abgelaufen|hinterlegt/i.test(e.message);
+    msg.innerHTML='<span style="color:var(--err)">'+(abgelaufen?esc(e.message):"Passwort falsch.")+'</span>';
+    if(abgelaufen) setTimeout(showLogin,1500);
+  }
   finally{ btn.disabled=false; btn.textContent=old; }
 }
 
@@ -984,17 +1072,17 @@ function pageAccess(v){
   const isOnline = (ONLINE_BUILD_B64||"").length>200;
 
   const info=el("div",{class:"hint"});
-  info.innerHTML='<b>So sicher ist es:</b> Der Login ist ein solider, aber clientseitiger Schutz — er verbirgt die Verwaltung vor zufälligen Besuchern. Die eigentlichen Daten sind zusätzlich dadurch geschuetzt, dass zum Speichern immer ein GitHub-Token nötig ist, der nie in der Seite gespeichert wird. Waehle ein <b>starkes Passwort</b> (das nur der Verein kennt).';
+  info.innerHTML='<b>So funktioniert der Schutz:</b> Schreiben kann nur, wer einen gueltigen <b>GitHub-Token</b> hat — das prueft GitHub selbst, nicht diese Seite. Der Token wird auf jedem Geraet <b>verschluesselt</b> abgelegt (AES-GCM, Schluessel aus deinem Passwort). Das Passwort wird nirgends gespeichert und nirgends uebertragen — es existiert nur in deinem Kopf und kurz im Arbeitsspeicher. Wer den Speicher deines Browsers ausliest, findet nur unbrauchbaren Geheimtext.<br><br><b>Wichtig:</b> Das Passwort gilt <b>pro Geraet</b>, nicht fuer den Verein. Jede Person richtet sich ihren eigenen Zugang mit ihrem eigenen Token ein.';
   v.append(info);
 
   const card=el("div",{class:"card"});
-  card.append(el("h3",{style:"font-family:var(--font-body);font-size:1rem;"},"Zugang einrichten / Passwort setzen"));
-  card.append(el("div",{class:"field"},el("label",{},"Benutzername"),(()=>{const i=el("input",{type:"text",id:"acUser",value:"AndreaC"});return i;})()));
-  const p1=el("input",{type:"password",id:"acPw",placeholder:"neues Passwort",autocomplete:"new-password"});
+  card.append(el("h3",{style:"font-family:var(--font-body);font-size:1rem;"},"Passwort auf diesem Gerät ändern"));
+  card.append(el("p",{class:"small muted",style:"margin:0 0 10px"},"Verschluesselt den hier hinterlegten Token neu. Betrifft nur dieses Geraet — auf anderen Geraeten bleibt das dortige Passwort gueltig."));
+  const p1=el("input",{type:"password",id:"acPw",placeholder:"neues Passwort (min. 10 Zeichen)",autocomplete:"new-password"});
   const p2=el("input",{type:"password",id:"acPw2",placeholder:"Passwort wiederholen",autocomplete:"new-password"});
-  card.append(el("div",{class:"field"},el("label",{},"Passwort"),p1));
+  card.append(el("div",{class:"field"},el("label",{},"Neues Passwort"),p1));
   card.append(el("div",{class:"field"},el("label",{},"Passwort wiederholen"),p2));
-  const btn=el("button",{class:"btn btn-primary"}, isOnline?"Passwort speichern & online stellen":"Passwort speichern (Online-Version)");
+  const btn=el("button",{class:"btn btn-primary"}, isOnline?"Passwort ändern & online stellen":"Passwort ändern");
   const log=el("div",{class:"log",style:"margin-top:14px;display:none"});
   card.append(btn,log);
   v.append(card);
@@ -1003,36 +1091,33 @@ function pageAccess(v){
   linkCard.append(el("h3",{style:"font-family:var(--font-body);font-size:1rem;"},"Link für deine Kollegen"));
   linkCard.append(el("p",{class:"small muted",style:"margin:0 0 8px"},"Nach dem Einrichten ist die Verwaltung hier erreichbar (GitHub Pages braucht nach der ersten Veröffentlichung ggf. 1–2 Minuten):"));
   linkCard.append(el("a",{href:ADMIN_URL,target:"_blank",style:"word-break:break-all;font-weight:600;"},ADMIN_URL));
-  linkCard.append(el("p",{class:"small muted",style:"margin:10px 0 0"},"Zum Speichern von Änderungen brauchen deine Kollegen zusaetzlich einen GitHub-Token (Contents: Read and write). Du kannst einen gemeinsamen Token erstellen und ihn den Kollegen privat (nicht öffentlich) weitergeben, oder jeder erstellt seinen eigenen."));
+  linkCard.append(el("p",{class:"small muted",style:"margin:10px 0 0"},"Zum Speichern von Änderungen braucht jede Person einen eigenen GitHub-Token (fine-grained, nur dieses Repository, Contents: Read and write, mit Ablaufdatum). Bitte KEINEN gemeinsamen Token weitergeben: damit liesse sich einer einzelnen Person der Zugang nicht mehr entziehen, und in der Versionsgeschichte erschienen alle Änderungen unter derselben Person."));
   v.append(linkCard);
 
   btn.addEventListener("click",()=>setupAccess(btn,log,isOnline));
 }
 
 async function setupAccess(btn,log,isOnline){
-  const user=$("#acUser").value.trim()||"AndreaC";
   const pw=$("#acPw").value, pw2=$("#acPw2").value;
   const logline=(t,cls="")=>{log.append(el("div",{class:cls},t));log.scrollTop=log.scrollHeight;};
   log.style.display="block"; log.innerHTML="";
-  if(pw.length<8){ logline("Passwort zu kurz — bitte mindestens 8 Zeichen.","err"); return; }
+  if(!CRYPTO_OK){ logline("Dieser Browser kann nichts verschluesselt ablegen.","err"); return; }
+  if(pw.length<10){ logline("Passwort zu kurz — bitte mindestens 10 Zeichen.","err"); return; }
   if(pw!==pw2){ logline("Die beiden Passwoerter stimmen nicht überein.","err"); return; }
   btn.disabled=true; const old=btn.textContent; btn.innerHTML='<span class="spinner"></span> Richte ein…';
   try{
-    const salt=bytesToHex(crypto.getRandomValues(new Uint8Array(16)));
-    logline("Berechne sicheren Passwort-Hash …","head");
-    const hash=await pbkdf2Hex(pw,salt,PBKDF2_ITER);
-    const auth={ user, algo:"PBKDF2-SHA256", iterations:PBKDF2_ITER, salt, hash };
-    logline("Schreibe admin/auth.json …","head");
-    await putFile(AUTH_PATH, b64EncodeUtf8(JSON.stringify(auth,null,2)), "Verwaltung: Online-Zugang / Passwort gesetzt", await getSha(AUTH_PATH));
-    logline("✓ Zugangsdaten gespeichert","ok");
+    logline("Verschluessele den Token mit dem neuen Passwort …","head");
+    const ok=await vaultSave(pw,state.token);
+    if(!ok) throw new Error("Der verschluesselte Token konnte nicht abgelegt werden.");
+    logline("✓ Passwort geaendert — gilt ab sofort auf diesem Geraet","ok");
+    $("#acPw").value=""; $("#acPw2").value="";
     if(isOnline){
       logline("Veröffentliche die App nach admin/index.html …","head");
       await putFile(ADMIN_PATH, ONLINE_BUILD_B64, "Verwaltung: Online-Version veröffentlicht", await getSha(ADMIN_PATH));
       logline("✓ App online gestellt","ok");
     }
     logline("Fertig! Link: "+ADMIN_URL,"ok");
-    toast("Online-Zugang eingerichtet 🎉","ok");
-    $("#acPw").value=""; $("#acPw2").value="";
+    toast("Passwort geändert 🎉","ok");
   }catch(e){ logline("✗ Fehler: "+e.message,"err"); }
   finally{ btn.disabled=false; btn.textContent=old; }
 }
