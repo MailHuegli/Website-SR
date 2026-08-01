@@ -87,68 +87,7 @@ const SITE_CONTENT = {
       }
     }
   ],
-  "news": [
-    {
-      "date": "2026-06-14",
-      "title": {
-        "de": "Sunday Ride durchs Emmental",
-        "en": "Sunday Ride through the Emmental"
-      },
-      "excerpt": {
-        "de": "Zwölf Bikes, ein Traumwetter-Tag und eine Mittagspause mit Aussicht — Rückblick auf unsere Juni-Tour.",
-        "en": "Twelve bikes, a glorious-weather day and a lunch break with a view — a recap of our June tour."
-      },
-      "image": ""
-    },
-    {
-      "date": "2026-05-02",
-      "image": "",
-      "title": {
-        "de": "Season Start 2026 erfolgreich absolviert",
-        "en": "Season Start 2026 successfully completed"
-      },
-      "excerpt": {
-        "de": "Unser jährlicher Sicherheitsauffrischungskurs war restlos ausgebucht. Danke an alle, die dabei waren!",
-        "en": "Our annual safety refresher course was fully booked. Thanks to everyone who took part!"
-      }
-    },
-    {
-      "date": "2026-04-18",
-      "image": "",
-      "title": {
-        "de": "Holiday Tour im September: Route steht",
-        "en": "Holiday Tour in September: route is set"
-      },
-      "excerpt": {
-        "de": "Dieses Jahr geht's Richtung Dolomiten. Details und Anmeldung wie gewohnt im WhatsApp-Kanal.",
-        "en": "This year we're heading for the Dolomites. Details and sign-up as usual in the WhatsApp channel."
-      }
-    },
-    {
-      "date": "2026-03-20",
-      "image": "",
-      "title": {
-        "de": "Neue Mitglieder herzlich willkommen",
-        "en": "New members warmly welcome"
-      },
-      "excerpt": {
-        "de": "Der Club wächst weiter — schön, dass ihr dabei seid. Meldet euch über das Kontaktformular für den Zugang zum Chat.",
-        "en": "The club keeps growing — great to have you. Reach out via the contact form for access to the chat."
-      }
-    },
-    {
-      "date": "2025-01-01",
-      "title": {
-        "de": "Test",
-        "en": "Test"
-      },
-      "excerpt": {
-        "de": "Test",
-        "en": "Test"
-      },
-      "image": "img/Fotos-Website_3789.jpg"
-    }
-  ],
+  "news": [],
   "gallery": [],
   "team": [
     {
