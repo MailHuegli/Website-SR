@@ -660,9 +660,9 @@ const SITE_CONTENT = {
         "en": "A full-day ride to wrap up the season."
       }
     }
- ],
+  ],
   "settings": {
-    "contactEmail": "andrea.huegli@gmx.ch",
+    "contactEmail": "sunset.riders.2023@gmail.com",
     "privacyText": {
       "de": "Datenschutzhinweis: Diese Website wird über GitHub Pages gehostet. Nachrichten aus dem Kontaktformular werden über FormSubmit an die hinterlegte Kontakt-E-Mail weitergeleitet. Namen und Fotos in Team und Galerie werden nur mit Einverständnis der abgebildeten Personen veröffentlicht.",
       "en": "Privacy notice: this website is hosted via GitHub Pages. Contact form submissions are forwarded via FormSubmit to the configured contact email. Names and photos in the Team and Gallery sections are published only with the consent of the people shown."
